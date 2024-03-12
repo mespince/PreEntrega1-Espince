@@ -23,3 +23,10 @@ const cotiIva = (cotizacion * 1.21)
 
 console.log("hola " + nombre + " tu edad es " + edad + ", por lo cual tendras un seguro de valor $" + cotizacion + " pero al contar con IVA dicho valor seria de $" + cotiIva)
 
+for (let i = 0; i <= 10; i++){
+    console.log(i);
+}
+
+while (nombre != "Matias"){
+    console.log(nombre);
+}
