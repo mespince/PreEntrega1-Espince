@@ -84,14 +84,34 @@ if (persona1.edad <= 17) {
     document.write("<hr>");
 }
 
-//Consolea los Ejemplos
+//Consolea el Find en Ejemplos
 
-console.log("Información de Ejemplos:");
+const ejemploBuscado = arrayEjemplos.find(ejemplo => ejemplo.nombreEj === "Juan"); 
+
+if (ejemploBuscado) {
+    console.log("Información del Ejemplo:");
+    console.log("Nombre: ", ejemploBuscado.nombreEj);
+    console.log("Edad: ", ejemploBuscado.edadEj);
+    console.log("Cotización: $", ejemploBuscado.cotizacionEj);
+    console.log("-------------------------------");
+} else {
+    console.log("Error no hay ningun Juan Loco, media pila");
+}
+
+
+// Intentar hacer un Lord DOMinick + 40% Armor Pen
+
 arrayEjemplos.forEach(ejemplo => {
-    console.log("Nombre: ", ejemplo.nombreEj);
-    console.log("Edad: ", ejemplo.edadEj);
-    console.log("Cotización: $", ejemplo.cotizacionEj);
-    console.log("-----------------------------");
+    const div = document.createElement("div");
+    div.innerHTML = `
+        <h2>Información del Ejemplo:</h2>
+        <p><u>Nombre:</u> ${ejemplo.nombreEj}</p>
+        <p><u>Edad:</u> ${ejemplo.edadEj}</p>
+        <p><u>Cotización:</u> $${ejemplo.cotizacionEj}</p>
+        <p>Tenga en cuenta que la cotización inicial es sin IVA</p>
+        <p><u>Cotización con IVA:</u> $${ejemplo.cotizacionEj * 1.21}</p>
+        <hr>`;
+    document.body.appendChild(div);
 });
 
 
