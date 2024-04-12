@@ -1,120 +1,121 @@
-function Persona(nombre, apellido, añoNacimiento) {
-    this.nombre = nombre;
-    this.apellido = apellido;
-    this.edad = 2024 - añoNacimiento; 
-}
-let valorPorAños = 350;
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Bienvenido al Cotizador de Matias E. Espince");
 
-
-// Begin of the code, ahre porque en ingle
-
-console.log("Bienvenido al Cotizador de Seguros de Matias Espince");
-
-
-//Peticion de Datos
-
-let nombre = prompt("Ingrese su nombre");
-while (nombre === "" || nombre === ".") {
-    nombre = prompt("POR FAVOR INGRESE SU NOMBRE")
-}
-let apellido = prompt("Ingrese su apellido");
-while (apellido === "" || apellido === ".") {
-    apellido = prompt("POR FAVOR INGRESE SU APELLIDO AHORA")
-}
-
-let añoNacimiento;
-while (true) {
-    añoNacimiento = prompt("Por favor ingrese su año de Nacimiento");
-    if (añoNacimiento.trim() !== "" && !isNaN(añoNacimiento)) {
-        añoNacimiento = parseInt(añoNacimiento);
-        break;
-    } else {
-        alert("ERROR! Ingrese un año numérico.");
+    // Constructor Persona
+    function Persona(nombre, apellido, añoNacimiento) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = 2024 - añoNacimiento; 
     }
-}
 
-//Creacion de la persona
+    // Valor por años para cotización
+    let valorPorAños = 350;
 
-const persona1 = new Persona(nombre, apellido, añoNacimiento);
+    // El submit
+    document.getElementById('formularioDatos').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita que se recargue la página al enviar el formulario
 
-//Cotizacion
+        // Formulario
+        const nombre = document.getElementById('nombre').value;
+        const apellido = document.getElementById('apellido').value;
+        const añoNacimiento = parseInt(document.getElementById('añoNacimiento').value);
 
-const cotizacion = persona1.edad * valorPorAños;
-const cotiIva = cotizacion * 1.21;
+        // Persona
+        const persona = new Persona(nombre, apellido, añoNacimiento);
 
-//Ejemplos
+        // Calcular cotización y cotización con IVA
+        const cotizacion = persona.edad * valorPorAños;
+        const cotiIva = cotizacion * 1.21;
 
-function Ejemplos(nombreEj, edadEj) {
-    this.nombreEj = nombreEj;
-    this.edadEj = edadEj;
-    this.cotizacionEj = edadEj * 350;
-}
+        // Ocultar el formulario
+        document.getElementById('formularioDiv').style.display = 'none';
 
-const ejemplo1 = new Ejemplos("Juan", 18);
-const ejemplo2 = new Ejemplos("Pedro", 25);
-const ejemplo3 = new Ejemplos("Alberto", 30);
+        // Mostrar la info en Consola
+        if (persona.edad > 17 && persona.edad < 71) {
+            console.log("Información de Persona:");
+            console.log("Nombre: ", persona.nombre);
+            console.log("Apellido: ", persona.apellido);
+            console.log("Edad: ", persona.edad);
+            console.log("Cotización: $", cotizacion);
+            console.log("Tenga en cuenta que la cotización inicial es sin IVA");
+            console.log("Cotización con IVA: $", cotiIva);
+            console.log("-----------------------------");
+        } else {
+            console.log("La persona es menor de 17 años o mayor de 70 años, por lo que no se puede realizar la cotización.");
+        }
 
-const arrayEjemplos = [ejemplo1, ejemplo2, ejemplo3];
+        // Mostrar la info en DOM
+        if (persona.edad <= 17 || persona.edad >= 71) {
+            // Mostrar mensaje de error si la persona es menor de 17 años o mayor de 70 años
+            document.getElementById('informacionPersona').innerHTML = `<p>Usted es menor de edad o mayor de 70 años y no puede realizarse una cotización.</p>`;
+        } else {
+            // Mostrar la información de la persona ta ok
+            document.getElementById('informacionPersona').innerHTML = `
+                <h2>Información de Persona:</h2>
+                <p><u>Nombre:</u> ${persona.nombre}</p>
+                <p><u>Apellido:</u> ${persona.apellido}</p>
+                <p><u>Edad:</u> ${persona.edad}</p>
+                <p><u>Cotización:</u> $${cotizacion}</p>
+                <p>Tenga en cuenta que la cotización inicial es sin IVA</p>
+                <p><u>Cotización con IVA:</u> $${cotiIva}</p>
+                <hr>`;
+        }
+        document.getElementById('informacionPersona').style.display = 'block'; // Mostrar el contenedor de información
 
-//Si todo es correcto continua aca
+        // Mostrar el botón "Realizar Otra Cotización"
+        const botonReiniciarDiv = document.getElementById('botonReiniciarDiv');
+        botonReiniciarDiv.style.display = 'block';
 
-let mensajePlanilla = `Hola ${nombre} tu edad es ${persona1.edad} años, por lo cual tendrás un seguro de valor $${cotizacion} pero al contar con IVA dicho valor sería de $ ${cotiIva}`
+        // Mostrar los ejemplos en el DOM
+        mostrarEjemplos();
+    });
 
-if (persona1.edad <= 17) {
-    alert("Usted es menor de edad y no puede realizarse una cotización");
-} else {
-    alert(mensajePlanilla);
-    console.log("Información de Persona:");
-    console.log("Nombre: ", persona1.nombre);
-    console.log("Apellido: ", persona1.apellido);
-    console.log("Edad: ", persona1.edad);
-    console.log("Cotización: $", cotizacion);
-    console.log("Tenga en cuenta que la cotizacion inicial es sin IVA")
-    console.log("Cotizacion con IVA: $", cotiIva);
-    console.log("-----------------------------");
+    // Función para mostrar ejemplos en el DOM
+    function mostrarEjemplos() {
+        const ejemplosDiv = document.getElementById('ejemplosDiv');
+        ejemplosDiv.innerHTML = ""; // Limpiar el contenido anterior
 
-    // Aca quise flashear porque Nacho uso Document y lo busque y me gusto xD
-    document.write("<h2>Información de Persona:</h2>");
-    document.write("<p><u>Nombre:</u> " + persona1.nombre + "</p>");
-    document.write("<p><u>Apellido:</u> " + persona1.apellido + "</p>");
-    document.write("<p><u>Edad:</u> " + persona1.edad + "</p>");
-    document.write("<p><u>Cotización:</u> $" + cotizacion + "</p>");
-    document.write("<p>Tenga en cuenta que la cotización inicial es sin IVA</p>");
-    document.write("<p><u>Cotización con IVA:</u> $" + cotiIva + "</p>");
-    document.write("<hr>");
-}
+        arrayEjemplos.forEach(ejemplo => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+                <h2>Información del Ejemplo:</h2>
+                <p><u>Nombre:</u> ${ejemplo.nombreEj}</p>
+                <p><u>Edad:</u> ${ejemplo.edadEj}</p>
+                <p><u>Cotización:</u> $${ejemplo.cotizacionEj}</p>
+                <p>Tenga en cuenta que la cotización inicial es sin IVA</p>
+                <p><u>Cotización con IVA:</u> $${ejemplo.cotizacionEj * 1.21}</p>
+                <hr>`;
+            ejemplosDiv.appendChild(div);
+        });
 
-//Consolea el Find en Ejemplos
+        // Mostrar el contenedor de ejemplos
+        ejemplosDiv.style.display = 'block';
+    }
 
-const ejemploBuscado = arrayEjemplos.find(ejemplo => ejemplo.nombreEj === "Juan"); 
+    // Constructor para los ejemplos
+    function Ejemplos(nombreEj, edadEj) {
+        this.nombreEj = nombreEj;
+        this.edadEj = edadEj;
+        this.cotizacionEj = edadEj * 350;
+    }
 
-if (ejemploBuscado) {
-    console.log("Información del Ejemplo:");
-    console.log("Nombre: ", ejemploBuscado.nombreEj);
-    console.log("Edad: ", ejemploBuscado.edadEj);
-    console.log("Cotización: $", ejemploBuscado.cotizacionEj);
-    console.log("-------------------------------");
-} else {
-    console.log("Error no hay ningun Juan Loco, media pila");
-}
+    // Ejemplos iniciales
+    const ejemplo1 = new Ejemplos("Juan", 18);
+    const ejemplo2 = new Ejemplos("Pedro", 25);
+    const ejemplo3 = new Ejemplos("Alberto", 30);
+    const arrayEjemplos = [ejemplo1, ejemplo2, ejemplo3];
 
+    // Botón "Realizar Otra Cotización"
+    document.getElementById('botonReiniciar').addEventListener('click', function() {
+        // Limpiar los valores del formulario
+        document.getElementById('nombre').value = '';
+        document.getElementById('apellido').value = '';
+        document.getElementById('añoNacimiento').value = '';
 
-// Intentar hacer un Lord DOMinick + 40% Armor Pen
-
-arrayEjemplos.forEach(ejemplo => {
-    const div = document.createElement("div");
-    div.innerHTML = `
-        <h2>Información del Ejemplo:</h2>
-        <p><u>Nombre:</u> ${ejemplo.nombreEj}</p>
-        <p><u>Edad:</u> ${ejemplo.edadEj}</p>
-        <p><u>Cotización:</u> $${ejemplo.cotizacionEj}</p>
-        <p>Tenga en cuenta que la cotización inicial es sin IVA</p>
-        <p><u>Cotización con IVA:</u> $${ejemplo.cotizacionEj * 1.21}</p>
-        <hr>`;
-    document.body.appendChild(div);
+        // Mostrar el formulario y ocultar la información y los ejemplos
+        document.getElementById('formularioDiv').style.display = 'block';
+        document.getElementById('informacionPersona').style.display = 'none';
+        document.getElementById('ejemplosDiv').style.display = 'none';
+        document.getElementById('botonReiniciarDiv').style.display = 'none';
+    });
 });
-
-
-//Finaliza con un ALERT 
-
-alert("☺ Gracias por confiar en nosotros. ♥");
